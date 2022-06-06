@@ -1,5 +1,4 @@
 const express = require('express');
-const { Socket } = require('socket.io');
 const gamesRoutes = require('./src/gamesRoutes');
 const messagesRoutes = require('./src/messagesRoutes');
 
@@ -8,12 +7,11 @@ const app = express();
 const port = 8000;
 
 //Ajout de socket.io
-const server = require('http').Server(app);
+const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-//Connexion socket
-io.on('connection', (socket) => {
-    console.log(`Connected to client ${socket.id}`)
+io.on('connection', () => {
+    console.log('User connected');
 })
 
 app.use((req, res, next) => {
@@ -35,4 +33,3 @@ app.use('/api/messages', messagesRoutes);
 app.listen(port, () => {
     console.log('Babyfoot app running on port : ' + port);
 });
-
